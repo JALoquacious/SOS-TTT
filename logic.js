@@ -4,7 +4,7 @@ let result    = null,
     winner    = null,
     winSeq    = null,
     gameOver  = false,
-    bestMove;
+    bestMove  = 4;
 
 const userNum = +1
       compNum = -1
@@ -23,8 +23,7 @@ const randomCell = (array, nCells) => {
 // recursively alternate between players, checking best moves
 //-------------------------------------------------------------------\\
 
-
-// VERSION 5: works faster, but glitchy
+// VERSION 5: works faster, but glitchy, especially if user is 'O'
 const negamax = (board, player, depth, α, β) => {
     if ((board.getWinner(userNum, compNum) !== null) || depth === 7) {
         return board.getWinner(userNum, compNum);
@@ -32,14 +31,15 @@ const negamax = (board, player, depth, α, β) => {
     else {
         var highScore = -Infinity;
         board.available().forEach(function (move) {
-            board.mark(move, player);
-            var score = -negamax(board, -player, depth + 1, -β, -α);
-            board.undo(move);
-            if (score > highScore) {
-                highScore = score;
-                bestMove = move;
+            var temp = board.copy();
+            temp.mark(move, player);
+            var score = -negamax(temp, -player, depth + 1, -β, -α);
+            //board.undo(move);
+            if (score > highScore) { // if better cell is found
+                highScore = score; // mark best score so far
+                bestMove = move; // mark best move so far
                 α = Math.max(α, score);
-                if (α >= β) {
+                if (α >= β) { // alpha-beta pruning
                     return bestMove;
                 }
             }
@@ -51,10 +51,10 @@ const negamax = (board, player, depth, α, β) => {
                 "α:", α,
                 "β:", β);
     return bestMove;
-}
+}//==================================================================//
 
-
-/* VERSION 4 (too much recursion error; won't even start running)
+/*
+// VERSION 4 (too much recursion error; won't even start running)
 const negamax = (board, player, depth, α, β) => {
     if ((board.getWinner(userNum, compNum) !== null)) {//  || depth === 6
         return board.getWinner(userNum, compNum);
@@ -79,7 +79,8 @@ const negamax = (board, player, depth, α, β) => {
 }
 */
 
-/* VERSION 3 (too much recursion error; won't even start running)
+/*
+// VERSION 3 (too much recursion error; won't even start running)
 const negamax = (board, player, depth, α, β) => {
     if ((board.getWinner(userNum, compNum) !== null)) {//  || depth === 6
         return board.getWinner(userNum, compNum);
@@ -132,9 +133,8 @@ const negamax = (board, player, depth, α, β) => {
 }
 */
 
-
-//VERSION 1 (used to work; very slow; doesn't always switch turns)
 /*
+// VERSION 1 (used to work; very slow; doesn't always switch turns)
 const negamax = (board, player, depth) => {
     if ((board.getWinner(userNum, compNum) !== null)) {//  || depth === 6
         return board.getWinner(userNum, compNum);
@@ -159,10 +159,6 @@ const negamax = (board, player, depth) => {
 }
 */
 
-//==================================================================//
-
-
-
 let Board = function () {
     this.wins = [
         //-------- vertical
@@ -178,9 +174,9 @@ let Board = function () {
         [2, 4, 6]
     ];
     this.state = [
-         //1,0,0,
-         //0,0,0,
-         //0,0,-1
+        //1,0,0,
+        //0,0,0,
+        //0,0,-1
         
         0,0,0,
         0,0,0,
@@ -214,8 +210,14 @@ Board.prototype = {
         return (val === playerNum) ? idx : null;
     },
 	
-	// return true if every element of array is occupied
-    isFull: function () { return this.state.every(val => val); },
+    randomChoice: function (array) {
+        return array[Math.floor(array.length * Math.random())];
+    },
+    
+	// return true if every element of array matches boolean argument
+    matchAll: function (bool) {
+        return this.state.every(val => Boolean(val) === bool);
+    },
 	
     // return indexes of unoccupied cells
     available: function () {
@@ -233,7 +235,9 @@ Board.prototype = {
     
 	// return true if every element of subarray can be found in array
 	isSubset: function (sub, array) {
-		winSeq = sub.every(val => array.indexOf(val) > -1) ? sub : false;
+		winSeq = sub.every(val => array.indexOf(val) > -1)
+            ? sub
+            : false;
 	    return winSeq;
 	},
 	
@@ -247,7 +251,7 @@ Board.prototype = {
 	    return (
 	        this.validateWin(this.occupied(userNum)) ? userNum :
 	        this.validateWin(this.occupied(compNum)) ? compNum :
-	        this.isFull() ? 0 :
+	        this.matchAll(true) ? 0 :
 	        null
 	    );
 	},
@@ -380,17 +384,34 @@ app.controller('GameCtrl',
     
     $scope.AImove = function (board) {
         //$timeout(function () {
-            while (!board.isFull() && !userTurn && !gameOver) {
+        while (!board.matchAll(true) && !userTurn && !gameOver) {
+            if(board.matchAll(false)) {
                 $scope.setActive(board,
-                                 "cell" + negamax(board, compNum, 1, -Infinity, Infinity),
+                                 "cell" +
+                                 board.randomChoice([0, 2, 4, 6, 8]),
+                                 $scope.compToken);
+            } else {
+                $scope.setActive(board,
+                                 "cell" + negamax(board,
+                                                  compNum,
+                                                  1,
+                                                  -Infinity,
+                                                  +Infinity),
                                  $scope.compToken);
             }
+                
+        }
         //}, 750);
     }
     
     angular.element(document).ready(function () { // wait for page load
         $scope.game = new Board();
-        $scope.AImove($scope.game);
+        $timeout(function () {
+            $scope.AImove($scope.game);
+        }, 750);
+        
+        // seeds a couple initial board values to shorten loop
+        // must remember to initialize board state to these values
         ///////////////////////////////////////////////////////////////
         //let sq0 = angular.element(document.querySelector('#cell0'));
         //let sq8 = angular.element(document.querySelector('#cell8'));

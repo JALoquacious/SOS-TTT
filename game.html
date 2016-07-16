@@ -1,0 +1,10 @@
+<div class="container" ng-controller='GameCtrl as GC'>
+    <div class="board">
+        <div ng-repeat="row in dimension" ng-init="rID = row">
+            <div ng-repeat="col in dimension" ng-init="cID = col">
+                <div id="{{'cell' + (3 * rID + cID)}}" class="cell" ng-init="cellID = 'cell' + (3 * rID + cID)" ng-click='setActive(game, cellID, userToken); AImove(game)'>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

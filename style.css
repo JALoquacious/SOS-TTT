@@ -1,0 +1,255 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: navajowhite;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+33,000000+33,175a60+100 */
+    background: rgb(0, 0, 0);
+    /* Old browsers */
+    background: -moz-linear-gradient(-45deg, rgba(0, 0, 0, 1) 33%, rgba(0, 0, 0, 1) 33%, rgba(23, 90, 96, 1) 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg, rgba(0, 0, 0, 1) 33%, rgba(0, 0, 0, 1) 33%, rgba(23, 90, 96, 1) 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg, rgba(0, 0, 0, 1) 33%, rgba(0, 0, 0, 1) 33%, rgba(23, 90, 96, 1) 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#175a60', GradientType=1);
+    /* IE6-9 fallback on horizontal gradient */
+}
+
+p {
+    font-size: 3em;
+    position: absolute;
+    top: 1em;
+    left: 1em;
+    margin: 0;
+    color: #75A2A2;
+}
+
+button {
+    width: 10em;
+    height: 3em;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    margin-bottom: 1em;
+    background-color: navajowhite;
+    border-style: none;
+    cursor: pointer;
+}
+
+.wrapper {
+    text-align: center;
+    border-color: navajowhite;
+    border-style: dashed;
+    border-width: thick;
+}
+
+.radio-input {
+    cursor: pointer;
+    width: 2em;
+    height: 2em;
+}
+
+.radio-font {
+    cursor: pointer;
+    display: inline-block;
+    margin: 1em;
+    font-size: 2em;
+}
+
+.container {
+    -webkit-perspective: 600px;
+    -moz-perspective: 600px;
+    -o-perspective: 600px;
+    perspective: 600px;
+}
+
+.board {
+    width: 500px;
+    height: 500px;
+    margin: 0 auto;
+    font-size: 7em;
+    -webkit-transform: rotateX(45deg) rotateY(0deg) rotateZ(15deg);
+    -moz-transform: rotateX(45deg) rotateY(0deg) rotateZ(15deg);
+    -o-transform: rotateX(45deg) rotateY(0deg) rotateZ(15deg);
+    transform: rotateX(45deg) rotateY(0deg) rotateZ(15deg);
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.cell {
+    text-align: center;
+    line-height: 150px;
+    width: 150px;
+    height: 150px;
+    float: left;
+    margin: 5px 4px 5px 5px;
+    cursor: pointer;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition: all 0.4s;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#86adcc+0,244560+50,16354e+51,53748f+100 */
+    background: rgb(134, 173, 204);
+    /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(134, 173, 204, 1) 0%, rgba(36, 69, 96, 1) 50%, rgba(22, 53, 78, 1) 51%, rgba(83, 116, 143, 1) 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(134, 173, 204, 1) 0%, rgba(36, 69, 96, 1) 50%, rgba(22, 53, 78, 1) 51%, rgba(83, 116, 143, 1) 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(134, 173, 204, 1) 0%, rgba(36, 69, 96, 1) 50%, rgba(22, 53, 78, 1) 51%, rgba(83, 116, 143, 1) 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#86adcc', endColorstr='#53748f', GradientType=0);
+    /* IE6-9 */
+}
+
+.cell:hover {
+    -webkit-transform: translate3d(-5px, -5px, 20px);
+    -moz-transform: translate3d(-5px, -5px, 20px);
+    -o-transform: translate3d(-5px, -5px, 20px);
+    transform: translate3d(-5px, -5px, 20px);
+    -webkit-box-shadow: 10px 10px 10px rgba(255, 255, 255, 0.5);
+    -moz-box-shadow: 10px 10px 10px rgba(255, 255, 255, 0.5);
+    -o-box-shadow: 10px 10px 10px rgba(255, 255, 255, 0.5);
+    box-shadow: 10px 20px 10px rgba(255, 255, 255, .1);
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f7b773+0,874805+50,6a3700+51,db7d19+100 */
+    background: rgb(247, 183, 115);
+    /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(247, 183, 115, 1) 0%, rgba(135, 72, 5, 1) 50%, rgba(106, 55, 0, 1) 51%, rgba(219, 125, 25, 1) 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(247, 183, 115, 1) 0%, rgba(135, 72, 5, 1) 50%, rgba(106, 55, 0, 1) 51%, rgba(219, 125, 25, 1) 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(247, 183, 115, 1) 0%, rgba(135, 72, 5, 1) 50%, rgba(106, 55, 0, 1) 51%, rgba(219, 125, 25, 1) 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#f7b773', endColorstr='#db7d19', GradientType=0);
+    /* IE6-9 */
+}
+
+.cell:active {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f7b773+0,874805+50,6a3700+51,db7d19+100 */
+    background: rgb(247, 183, 115);
+    /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(247, 183, 115, 1) 0%, rgba(135, 72, 5, 1) 50%, rgba(106, 55, 0, 1) 51%, rgba(219, 125, 25, 1) 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(247, 183, 115, 1) 0%, rgba(135, 72, 5, 1) 50%, rgba(106, 55, 0, 1) 51%, rgba(219, 125, 25, 1) 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(247, 183, 115, 1) 0%, rgba(135, 72, 5, 1) 50%, rgba(106, 55, 0, 1) 51%, rgba(219, 125, 25, 1) 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#f7b773', endColorstr='#db7d19', GradientType=0);
+    /* IE6-9 */
+    -webkit-transform: translate3d(5px, 5px, -10px) rotateY(60deg);
+    -moz-transform: translate3d(5px, 5px, -10px) rotateY(60deg);
+    -o-transform: translate3d(5px, 5px, -10px) rotateY(60deg);
+    transform: translate3d(5px, 5px, -10px) rotateY(60deg);
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -o-box-shadow: none;
+    box-shadow: none;
+}
+
+.win-seq {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f7b773+0,874805+50,6a3700+51,db7d19+100 */
+    background: rgb(247, 183, 115);
+    /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(247, 183, 115, 1) 0%, rgba(135, 72, 5, 1) 50%, rgba(106, 55, 0, 1) 51%, rgba(219, 125, 25, 1) 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(247, 183, 115, 1) 0%, rgba(135, 72, 5, 1) 50%, rgba(106, 55, 0, 1) 51%, rgba(219, 125, 25, 1) 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(247, 183, 115, 1) 0%, rgba(135, 72, 5, 1) 50%, rgba(106, 55, 0, 1) 51%, rgba(219, 125, 25, 1) 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#f7b773', endColorstr='#db7d19', GradientType=0);
+    /* IE6-9 */
+    /-webkit-transform: translate3d(-5px, -5px, 20px);
+    /-moz-transform: translate3d(-5px, -5px, 20px);
+    /-o-transform: translate3d(-5px, -5px, 20px);
+    transform: translate3d(-5px, -5px, 10px);
+}
+
+.X {
+    pointer-events: none;
+    transform: translate3d(5px, 5px, -10px);
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e77b6b+0,771b0d+50,630e01+51,a64a3c+100 */
+    background: rgb(231, 123, 107);
+    /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(231, 123, 107, 1) 0%, rgba(119, 27, 13, 1) 50%, rgba(99, 14, 1, 1) 51%, rgba(166, 74, 60, 1) 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(231, 123, 107, 1) 0%, rgba(119, 27, 13, 1) 50%, rgba(99, 14, 1, 1) 51%, rgba(166, 74, 60, 1) 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(231, 123, 107, 1) 0%, rgba(119, 27, 13, 1) 50%, rgba(99, 14, 1, 1) 51%, rgba(166, 74, 60, 1) 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#e77b6b', endColorstr='#a64a3c', GradientType=0);
+    /* IE6-9 */
+}
+
+.O {
+    pointer-events: none;
+    transform: translate3d(5px, 5px, -10px);
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#93bf97+0,2f5532+50,214324+51,5e8461+100 */
+    background: rgb(147, 191, 151);
+    /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(147, 191, 151, 1) 0%, rgba(47, 85, 50, 1) 50%, rgba(33, 67, 36, 1) 51%, rgba(94, 132, 97, 1) 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(147, 191, 151, 1) 0%, rgba(47, 85, 50, 1) 50%, rgba(33, 67, 36, 1) 51%, rgba(94, 132, 97, 1) 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(147, 191, 151, 1) 0%, rgba(47, 85, 50, 1) 50%, rgba(33, 67, 36, 1) 51%, rgba(94, 132, 97, 1) 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#93bf97', endColorstr='#5e8461', GradientType=0);
+    /* IE6-9 */
+}
+
+.rotate {
+    pointer-events: none !important;
+    /*
+    -webkit-transform: rotateZ(1080deg);
+    -moz-transform: rotateZ(1080deg);
+    transform: rotateZ(1080deg);
+    */
+    -webkit-animation: rotate-board 5s;
+    -moz-animation: rotate-board 5s;
+    -o-animation: rotate-board 5s;
+    animation: rotate-board 5s;
+    -webkit-animation-delay: 1s;
+    -moz-animation-delay: 1s;
+    -o-animation-delay: 1s;
+    animation-delay: 1s;
+}
+
+@keyframes rotate-board {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(180deg);
+    }
+    50% {
+        transform: rotate(360deg);
+    }
+    100% {
+        transform: rotate(1080deg);
+    }
+}
+
+
+/*-Angular-----------------------------------------------------------*/
+
+.fade.ng-hide {
+    opacity: 0;
+}
+
+.fade.ng-hide-remove {
+    transition: all linear 1000ms;
+}
+
+.fade.ng-hide-add {
+    transition: all linear 1000ms;
+}
+
+.fade.ng-show {
+    opacity: 100;
+}
+
+.fade.ng-show-remove {
+    transition: all linear 1000ms;
+}
+
+.fade.ng-show-add {
+    transition: all linear 1000ms;
+}

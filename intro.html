@@ -1,0 +1,23 @@
+<div ng-controller='IntroCtrl as IC'>
+    <div id='token-choice' class='wrapper fade' ng-hide='IC.token'>
+        <h1>Choose your token:</h1>
+        <label class='radio-font'>
+            <input class='radio-input' name='userToken' type='radio' value='X' ng-model='IC.token' ng-click='setTokens(IC.token)' /> X - 1st turn
+        </label>
+        <label class='radio-font'>
+            <input class='radio-input' name='userToken' type='radio' value='O' ng-model='IC.token' ng-click='setTokens(IC.token)' /> O - 2nd turn
+        </label>
+    </div>
+    <div id='level-choice' class='wrapper fade' ng-show='IC.token && !IC.level'>
+        <h1>Choose difficulty level:</h1>
+        <label class='radio-font'>
+            <input class='radio-input' name='level' type='radio' value='1' ng-model='IC.level' ng-click='setLevel(IC.level)' />Easy
+        </label>
+        <label class='radio-font'>
+            <input class='radio-input' name='level' type='radio' value='2' ng-model='IC.level' ng-click='setLevel(IC.level)' />Medium
+        </label>
+        <label class='radio-font'>
+            <input class='radio-input' name='level' type='radio' value='3' ng-model='IC.level' ng-click='setLevel(IC.level)' />Impossible
+        </label>
+    </div>
+</div>

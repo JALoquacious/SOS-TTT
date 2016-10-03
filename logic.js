@@ -1,20 +1,43 @@
-// global variables
-let result    = null,
-    userTurn  = null,
-    winner    = null,
-    winSeq    = null,
-    gameOver  = false,
-    bestMove  = 4;
+/*
+Negamax function doesn't work if user plays as 'X' on 'Impossible' mode.
+(The program works perfectly if user plays as 'O'.) I've tried an
+enormous number of versions of the negamax function, as well as scouring
+the program for other bugs that may be affecting the result, but with
+little luck.
 
-const userNum = +1
-      compNum = -1
+I posted the function(s) and a test suite on Stack Overflow in the hopes
+of possibly getting a nudge in the right direction, though I expected
+that the problem is just too complex for even a good samaritan to study
+it without any real compensation. Sure enough, so far, no one has
+responded.
+
+For now, I'm leaving the program as-is in the hope that my knowledge of
+algorithms will improve to the point where I can work on the negamax
+function more proficiently instead of stumbling around in the dark.
+
+Besides that central fix, I still need to implement board freezing so
+the user cannot interfere during the computer's turn -- a relatively
+simple task.
+*/
+
+// global variables
+let result   = null,
+    userTurn = null,
+    winner   = null,
+    winSeq   = null,
+    bestMove = null,
+    timer    = null,
+    userNum  = null,
+    compNum  = null,
+    loaded   = false,
+    gameOver = false;
 
 
 // generate random cell num in range if num not in existing array
 //-------------------------------------------------------------------\\
 const randomCell = (array, nCells) => {
 	let rand = Math.floor(Math.random() * nCells);
-    return (array.indexOf(rand) < 0)
+    return (array.indexOf(rand) > -1)
         ? rand
         : randomCell(array, nCells);
 }//==================================================================//
@@ -22,142 +45,34 @@ const randomCell = (array, nCells) => {
 
 // recursively alternate between players, checking best moves
 //-------------------------------------------------------------------\\
-
-// VERSION 5: works faster, but glitchy, especially if user is 'O'
-const negamax = (board, player, depth, α, β) => {
-    if ((board.getWinner(userNum, compNum) !== null) || depth === 7) {
+const negamax = (board, player, depth, lvl, α, β) => {
+    if ((board.getWinner(userNum, compNum) !== null) || depth >= lvl) {
         return board.getWinner(userNum, compNum);
     }
-    else {
-        var highScore = -Infinity;
-        board.available().forEach(function (move) {
-            var temp = board.copy();
-            temp.mark(move, player);
-            var score = -negamax(temp, -player, depth + 1, -β, -α);
-            //board.undo(move);
-            if (score > highScore) { // if better cell is found
-                highScore = score; // mark best score so far
-                bestMove = move; // mark best move so far
-                α = Math.max(α, score);
-                if (α >= β) { // alpha-beta pruning
-                    return bestMove;
-                }
+    var highScore = -Infinity;
+    board.available().forEach(function (move) {
+        //var temp = board.copy();
+        board.mark(move, player);
+        var score = -negamax(board, -player, depth + 1, lvl, -β, -α);
+        board.undo(move);
+        if (score > highScore) { // if better cell is found
+            highScore = score; // mark best score so far
+            bestMove = move; // mark best move so far
+            α = Math.max(α, score);
+            if (α >= β) { // alpha-beta pruning
+                return bestMove; // RETURN HIGHSCORE???
             }
-        });
-    }
-    console.log("Depth:", depth,
+        }
+    });
+    /*console.log("Depth:", depth,
                 "highScore:", highScore,
                 "bestMove:", bestMove,
                 "α:", α,
                 "β:", β);
-    return bestMove;
+    */
+    return bestMove; // RETURN HIGHSCORE???
 }//==================================================================//
 
-/*
-// VERSION 4 (too much recursion error; won't even start running)
-const negamax = (board, player, depth, α, β) => {
-    if ((board.getWinner(userNum, compNum) !== null)) {//  || depth === 6
-        return board.getWinner(userNum, compNum);
-    }
-    var children = board.available();
-    if (userTurn) {
-        children.forEach(function (child) {
-            var score = negamax(board, -player, depth + 1, α, β);
-            if (score > α) { α = score; }
-            if (α >= β) { return α; }
-        });
-        return α;
-    }
-    else {
-        children.forEach(function (child) {
-            var score = negamax(board, -player, depth + 1, α, β);
-            if (score < β) { β = score; }
-            if (α >= β) { return β; }
-        });
-        return β;
-    }
-}
-*/
-
-/*
-// VERSION 3 (too much recursion error; won't even start running)
-const negamax = (board, player, depth, α, β) => {
-    if ((board.getWinner(userNum, compNum) !== null)) {//  || depth === 6
-        return board.getWinner(userNum, compNum);
-    }
-    if (player === userNum) {
-        board.available().forEach(function (move) {
-            α = Math.max(α, negamax(board, depth + 1, α, β, -player));
-            if (β >= α) {
-                return α;
-            }
-            return α;
-        });
-    }
-    else {
-        board.available().forEach(function (move) {
-            β = Math.min(α, negamax(board, depth + 1, α, β, -player));
-            if (β >= α) {
-                return β;
-            }
-            return β;
-        });
-    }
-}
-*/
-
-/*
-//VERSION 2 (completely unpredictable behavior; faster than v1)
-const negamax = (board, player, depth, α, β) => {
-    if ((board.getWinner(userNum, compNum) !== null)) {//  || depth === 6
-        return board.getWinner(userNum, compNum);
-    }
-    var bestRank = -Infinity;
-    //var bestMove = 4;
-    board.available().forEach(function (move) {
-        board.mark(move, player);
-        α = Math.max(α, -negamax(board, -player, depth + 1, -β, -α));
-        //bestRank = Math.max(bestRank, rank);
-        //α = Math.max(α, rank);
-        board.undo(move);
-        if (α >= β) {
-            bestMove = move;
-            console.log("depth alpha beta best", depth, α, β, bestRank);
-            return bestMove;
-        }
-    });
-    //console.log("Depth:", depth);
-    //console.log("RETURNED BEST RANK VALUE IS:", bestRank);
-    console.log("RETURNED BEST MOVE VALUE IS:", bestMove);
-    return bestMove;
-}
-*/
-
-/*
-// VERSION 1 (used to work; very slow; doesn't always switch turns)
-const negamax = (board, player, depth) => {
-    if ((board.getWinner(userNum, compNum) !== null)) {//  || depth === 6
-        return board.getWinner(userNum, compNum);
-    }
-    else {
-        var highScore = -Infinity;
-        board.available().forEach(function (move) {
-            board.mark(move, player);
-            let score = -negamax(board, -player, depth + 1);
-            board.undo(move);
-            if (score > highScore) {
-                highScore = score;
-                bestMove = move;
-            }
-            //highScore = Math.max(score, highScore);
-        });
-    }
-    console.log("Depth:", depth);
-    console.log("RETURNED HIGHSCORE VALUE IS:", highScore);
-    console.log("RETURNED BEST MOVE VALUE IS:", bestMove);
-    return bestMove;
-}
-*/
 
 let Board = function () {
     this.wins = [
@@ -174,10 +89,6 @@ let Board = function () {
         [2, 4, 6]
     ];
     this.state = [
-        //1,0,0,
-        //0,0,0,
-        //0,0,-1
-        
         0,0,0,
         0,0,0,
         0,0,0
@@ -342,27 +253,27 @@ app.controller('GameCtrl',
     // set computer token to opposite of user selection
     $scope.compToken = Storage.getCompToken();
     
-    // retrieve level from factory
-    $scope.level = Storage.getLevel();
-    
     // generate 1 dimension of board for use in Angular loop
-    $scope.dimension = Array.from(new Array(3), (x, i) => i);
+    $scope.dimension = Array.from(new Array(3), (v, i) => i);
+    
+    // retrieve level from factory; multiply by length of dimension
+    $scope.level = Storage.getLevel() * $scope.dimension.length;
     
     // variable must be non-scoped or AImove will misfire
     userTurn = ($scope.userToken === 'X') ? true : false;
+    userNum = -1;
+    compNum = -userNum;
     
     // add token class & text to selected div
     $scope.setActive = function (board, tile, token) {
         let item = angular.element(document.querySelector(`#${tile}`)),
             cell = Number(/\d/.exec(tile)[0]), // extract digit
             num  = (userTurn) ? userNum : compNum;
-        console.log("setting cell:", cell);
+        console.log(userTurn ? "USER" : "COMP", "setting cell:", cell);
         item.text(token);
         item.addClass(token);
         board.mark(cell, num);
-        console.log("game state:", $scope.game.state); // DEBUG
         winner = board.num2Str(board.getWinner(userNum, compNum));
-        console.log("winner:", winner);
         if (winner) {
             // if winSeq, highlight winning cells; else do nothing
             (winSeq || [undefined]).forEach(cellNum => {
@@ -383,41 +294,43 @@ app.controller('GameCtrl',
     }
     
     $scope.AImove = function (board) {
-        //$timeout(function () {
-        while (!board.matchAll(true) && !userTurn && !gameOver) {
-            if(board.matchAll(false)) {
-                $scope.setActive(board,
-                                 "cell" +
-                                 board.randomChoice([0, 2, 4, 6, 8]),
-                                 $scope.compToken);
-            } else {
-                $scope.setActive(board,
-                                 "cell" + negamax(board,
-                                                  compNum,
-                                                  1,
-                                                  -Infinity,
-                                                  +Infinity),
-                                 $scope.compToken);
+        console.log("level is:", $scope.level);
+        $timeout.cancel(timer);
+        $timeout(function () {
+            while (!board.matchAll(true) && !userTurn && !gameOver) {
+                if(board.matchAll(false)) {
+                    $scope.setActive(board,
+                                     "cell" +
+                                     board.randomChoice([0, 2, 4, 6, 8]),
+                                     $scope.compToken);
+                } else {
+                    console.log('USERNUM:', userNum);
+                    let dimen = Math.pow($scope.dimension.length, 2),
+                        stage = ($scope.level <= $scope.dimension.length)
+                            ? randomCell(board.available(), dimen)
+                            : negamax(board,
+                                      compNum,
+                                      1,
+                                      $scope.level,
+                                      -Infinity,
+                                      +Infinity);
+                    $scope.setActive(board,
+                                     "cell" + stage,
+                                     $scope.compToken);
+                }
+
             }
-                
-        }
-        //}, 750);
+        }, 750);
+        console.log("post-AImove game state:", $scope.game.state); // DEBUG
     }
     
     angular.element(document).ready(function () { // wait for page load
-        $scope.game = new Board();
-        $timeout(function () {
-            $scope.AImove($scope.game);
-        }, 750);
-        
-        // seeds a couple initial board values to shorten loop
-        // must remember to initialize board state to these values
-        ///////////////////////////////////////////////////////////////
-        //let sq0 = angular.element(document.querySelector('#cell0'));
-        //let sq8 = angular.element(document.querySelector('#cell8'));
-        //sq0.addClass('X'); sq0.text('X');
-        //sq8.addClass('O'); sq8.text('O');
-        ///////////////////////////////////////////////////////////////
+        // angular's ready method doesn't wait properly
+        if (!loaded) {
+            $scope.game = new Board();
+                $scope.AImove($scope.game);
+                loaded = true;
+        }
     });
 });
 //===================================================================//
@@ -430,11 +343,14 @@ app.controller('ResultCtrl',
     $scope.resetAll = function () {
         let item = angular.element(document.querySelector(`.${'cell'}`));
         item.removeClass('rotate X O');
-        $scope.reset = true;
         result   = null,
         userTurn = null,
+        winner   = null,
         winSeq   = null,
-        gameOver = false,
+        bestMove = null,
+        timer    = null,
+        loaded   = false,
+        gameOver = false;
         Storage.data = {};
         $timeout(function () {
             $location.path('/');

@@ -1,17 +1,17 @@
 body {
     font-family: 'Open Sans', sans-serif;
     color: navajowhite;
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+33,000000+33,175a60+100 */
-    background: rgb(0, 0, 0);
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+40,175a60+100 */
+    background: #000000;
     /* Old browsers */
-    background: -moz-linear-gradient(-45deg, rgba(0, 0, 0, 1) 33%, rgba(0, 0, 0, 1) 33%, rgba(23, 90, 96, 1) 100%);
+    background: -moz-linear-gradient(left, #000000 40%, #175a60 100%);
     /* FF3.6-15 */
-    background: -webkit-linear-gradient(-45deg, rgba(0, 0, 0, 1) 33%, rgba(0, 0, 0, 1) 33%, rgba(23, 90, 96, 1) 100%);
+    background: -webkit-linear-gradient(left, #000000 40%, #175a60 100%);
     /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(135deg, rgba(0, 0, 0, 1) 33%, rgba(0, 0, 0, 1) 33%, rgba(23, 90, 96, 1) 100%);
+    background: linear-gradient(to right, #000000 40%, #175a60 100%);
     /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#175a60', GradientType=1);
-    /* IE6-9 fallback on horizontal gradient */
+    /* IE6-9 */
 }
 
 p {
